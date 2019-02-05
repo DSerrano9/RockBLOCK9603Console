@@ -202,6 +202,9 @@ namespace RockBLOCK9603ConsoleApp
                     ShutdownReceiver();
                 }               
             }
+            AutoEvent?.Dispose();
+            ManualEvent?.Dispose();
+            TokenSource?.Dispose();
             SerialPort?.Dispose();
 
             if (e != null)
