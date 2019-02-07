@@ -32,21 +32,6 @@ namespace RockBLOCK9603ConsoleApp
             Task.Factory.StartNew(ValueListener, TaskCreationOptions.LongRunning);
         }
 
-        #region WriteLine
-        public static void WriteLine(string str)
-        {
-            ConsoleSync(StandardIOWrapperOptions.WriteLine, 
-                Truncate(str));
-            return;
-        }
-        private static string Truncate(string str)
-        {
-            return (str.Length > BufferSize)
-                ? str.Substring(0, BufferSize)
-                : str;
-        }
-        #endregion
-
         #region ReadLine
         public static string ReadLine()
         {
@@ -88,6 +73,11 @@ namespace RockBLOCK9603ConsoleApp
         }
         #endregion
 
+        public static void WriteLine(string str)
+        {
+            ConsoleSync(StandardIOWrapperOptions.WriteLine, str);
+            return;
+        }
         private static void ConsoleSync(StandardIOWrapperOptions option, string str = null)
         {
             lock (Sync)
@@ -96,26 +86,27 @@ namespace RockBLOCK9603ConsoleApp
                 {
                     case StandardIOWrapperOptions.WriteLine:
                         {
-                            int savedCursorLeft = Console.CursorLeft;
-                            int savedCursorTop = Console.CursorTop;
-                            CursorTop += 6;
-
                             if (PendingValue)
                             {
+                                int cursorLeft = Console.CursorLeft;
+                                int cursorTop = Console.CursorTop;
+                                CursorTop += 6;
+
                                 Console.SetCursorPosition(0, CursorTop);
                                 Console.Write(str);
-                                Console.SetCursorPosition(savedCursorLeft, savedCursorTop);
+                                Console.SetCursorPosition(cursorLeft, cursorTop);
                             }
                             else
                             {
                                 Console.Write(str);
+                                CursorTop = Console.CursorTop + 4;
                                 Console.SetCursorPosition(0, CursorTop);
                             }                        
                             break;
                         }
                     case StandardIOWrapperOptions.ReadLine:
                         {
-                            CursorTop += 6;
+                            CursorTop = Console.CursorTop + 3;
                             Console.SetCursorPosition(0, CursorTop);
                             break;
                         }
