@@ -43,9 +43,7 @@ by itself. Otherwise, type "exit" and then press enter.
 2.) Enabling "E0" and "Q1", at the same time, is unsupported
 and will throw a TimeoutException. 
 
-3.) Enabling "V0" is unsupported and will throw a TimeoutException. 
-
-4.) The result from "%R" is truncated to 340 characters.  
+3.) Enabling "V0" is unsupported and will throw a TimeoutException.
 
 ------------------------------------------------------
 
